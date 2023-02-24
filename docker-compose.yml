@@ -3,12 +3,9 @@ services:
   app:
     container_name: holymoly
     image: foxxravin/holymoly:holymoly-v0.1.1
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     env_file:
       - .env
-
-    tty: true
-    stdin_open: true
-    command: poetry run pytest
+    # tty: true
+    # stdin_open: true
+    # command: poetry run pytest
