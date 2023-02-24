@@ -1,0 +1,25 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test dock compose build
+        run: docker-compose up
+
+      # if success build compose
+      - name: build compose
+        if: ${{ success() }}
+        run: docker-compose build
+
+      - name: publish if no errors
+        if: ${{ success() }}
+        run: |
+          echo "publishing"
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker-compose push
