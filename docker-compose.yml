@@ -6,6 +6,6 @@ services:
     build: .
     env_file:
       - .env
-    # tty: true
-    # stdin_open: true
-    # command: poetry run pytest
+    tty: true
+    stdin_open: true
+    command: poetry run pytest

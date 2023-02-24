@@ -1,1 +1,1 @@
-poetry run pytest
+echo "hello"

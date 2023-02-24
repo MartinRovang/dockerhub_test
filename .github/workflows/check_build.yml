@@ -6,25 +6,20 @@ on:
       - "main"
 
 jobs:
-  docker:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       # docker compose
       - name: Tests
-        uses: cloudposse/github-action-docker-compose-test-run@main
-        with:
-          file: docker-compose.yml
-          service: app
-          command: tests/unit-tests.sh
-      # build and push to docker hub
-      # - name: Build and push
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: .
-      #     file: ./Dockerfile
-      #     push: true
-      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/myapp:${{ github.sha }}
-      #     cache-from: type=registry,ref=$DOCKER_USERNAME/myapp:latest
-      #     cache-to: type=inline
+        run: docker-compose up --build --abort-on-container-exit
+
+  assert:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Assert
+        run: echo "Asserting..."
