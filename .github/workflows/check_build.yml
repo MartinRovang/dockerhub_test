@@ -9,21 +9,22 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
       # docker compose
-      - name: docker-compose up
-        uses: docker/build-push-action@v2
+      - name: Tests
+        uses: cloudposse/github-action-docker-compose-test-run@main
         with:
-          run: docker-compose up
+          file: docker-compose.yml
+          service: app
 
-      # if run without error build and push to docker hub
-      - name: Build and push
-        if: ${{ success() }}
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/docker-compose-action:${{ github.sha }}
-          cache-from: type=registry,ref=$DOCKER_USERNAME/docker-compose-action:cache
-          cache-to: type=registry,ref=$DOCKER_USERNAME/docker-compose-action:cache,mode=max
+      # build and push to docker hub
+      # - name: Build and push
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     file: ./Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/myapp:${{ github.sha }}
+      #     cache-from: type=registry,ref=$DOCKER_USERNAME/myapp:latest
+      #     cache-to: type=inline
