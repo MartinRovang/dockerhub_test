@@ -7,3 +7,7 @@ def test_environment():
 
 def test_larve():
     assert 1 == 2
+
+
+def test_horse():
+    assert 1 == 1
