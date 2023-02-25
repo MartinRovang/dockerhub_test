@@ -2,7 +2,7 @@ version: '3.7'
 services:
   app:
     container_name: holymoly
-    image: foxxravin/holymoly:v0.1.2
+    image: foxxravin/holymoly:v0.1.3
     build: .
     env_file:
       - .env
